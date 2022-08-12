@@ -1,95 +1,93 @@
 # This class is a data structure similar to an array
+
 class LinkedList
-  attr_reader :head
+  attr_reader :head, :tail
 
   def initialize
     @head = nil
     @tail = nil
-    @sum_nodes = 0
   end
 
   def append(value = nil)
-    old_tail = @tail
-    new_tail_node = Node.new(value)
-    old_tail.next_node = new_tail_node unless old_tail.nil?
-    @tail = new_tail_node
+    return begin_list(value) if head.nil?
 
-    if @head.nil?
-      @head = @tail
-    end
-    @sum_nodes += 1
+    @tail.next_node = Node.new(value)
+    @tail = @tail.next_node # new tail = old tail .next_node
   end
 
-  # def append(value)
-  #   return begin_list(value) if head.nil?
-
-  #   tail.next_node = create_node(value)
-  # end
-
-
   def prepend(value)
-    old_head = @head
-    new_head = Node.new(value)
-    new_head.next_node = old_head
+    return begin_list(value) if head.nil?
+
+    new_head = Node.new(value, @head)
     @head = new_head
-    @sum_nodes += 1
   end
 
   def size
-    @sum_nodes
-  end
+    return 1 if @head.next_node.nil?
 
-  def head
-    @head
-  end
-
-  def tail
-    @tail
-  end
-
-  def at(index, obj = nil)
-    return @head if index == 0
-    return recursive_next(@head.next_node, index)
-  end
-
-  # returns node/object
-  def recursive_next(obj, index, i = 1)
-    if index == i
-      return obj
-    else
-      recursive_next(obj.next_node, index, i += 1)
+    current_node = @head
+    i = 1
+    loop do
+      current_node = current_node.next_node
+      i += 1
+      return i if current_node.next_node == nil
     end
   end
 
-  # def at(index)
-  #   current_node = @head
-  #   index.times do
-  #     current_node = current_node.next_node
-  #   end
-  #   current_node
-  # end
-
-
+  def at(index)
+    current_node = @head
+    index.times do
+      current_node = current_node.next_node
+    end
+    current_node
+  end
 
   def pop
-    # remove last el
-    # 
-    # you need to use recursion + size to find penultimate node
-    # set next_node = nil
-    # return object
+    old_tail = @tail
+
+    return puts 'Linked List is empty' if @head.nil?
+
+    if @head.next_node.nil?
+      @head = nil
+      @tail = nil
+      return old_tail
+    end
+
+    @tail = get_penultimate_node
+    @tail.next_node = nil
+    old_tail
   end
 
   def contains?(value)
-    # boolean
+    size.times do |i|
+      return true if at(i).value == value
+    end
+    false
   end
 
   def find(value)
     # ret index of node containing value, or nil
+    size.times do |i|
+      return i if at(i).value == value
+    end
+    nil
   end
 
   def to_s
     # represent linked list objects as strings
     # format should be:  ( value ) -> ( value ) -> ( value ) -> nil
+  end
+
+  def get_penultimate_node(current_node = @head)
+    next_node = current_node.next_node
+    return current_node if next_node.next_node.nil?
+
+    get_penultimate_node(next_node)
+  end
+
+  def begin_list(value)
+    @head = Node.new(value)
+    @tail = @head
   end
 
   # extra credit

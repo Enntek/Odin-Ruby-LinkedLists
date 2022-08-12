@@ -11,6 +11,7 @@
 require_relative 'linked_list'
 require_relative 'node'
 require 'pry-byebug'
+# binding.pry
 
 # look at next_node for head, tail, and penultimate node
 
@@ -19,21 +20,12 @@ a_list.append('1st_data')
 a_list.append('2nd_data')
 a_list.append('3rd_data')
 a_list.append('4rd_data')
+a_list.prepend('prepend_data')
 
-p ['head', a_list.head]
-p ['tail', a_list.tail]
-p a_list.size
-# p a_list.at(3)
-a_list.prepend('prepend data')
-p a_list.head
-
-# what happens when we add data to arr?
-# we use push which is going to be equivalent to append
-# push looks at the array
-# i think it finds the tail
-# it creates a node
-# the node is given its value of 5
-# the node's next_node is set to nil
-# arr = [1, 2, 3]
-# arr.push(5)
-# p arr
+# p ['head', a_list.head]
+# p ['tail', a_list.tail]
+# p a_list.size
+# p a_list.at(0)
+# p a_list.pop
+# p a_list.tail
+p a_list.contains?('not data')
