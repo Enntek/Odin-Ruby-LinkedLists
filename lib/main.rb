@@ -15,11 +15,17 @@ require 'pry-byebug'
 # look at next_node for head, tail, and penultimate node
 
 a_list = LinkedList.new
-a_list.append(42)
-a_list.append(999)
+a_list.append('1st_data')
+a_list.append('2nd_data')
+a_list.append('3rd_data')
+a_list.append('4rd_data')
 
+p ['head', a_list.head]
+p ['tail', a_list.tail]
+p a_list.size
+# p a_list.at(3)
+a_list.prepend('prepend data')
 p a_list.head
-p a_list.tail
 
 # what happens when we add data to arr?
 # we use push which is going to be equivalent to append

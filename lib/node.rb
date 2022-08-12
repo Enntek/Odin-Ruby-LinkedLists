@@ -1,12 +1,9 @@
+# This class creates nodes for linked lists, stores data
 class Node
-  attr_accessor :next_node
+  attr_accessor :value, :next_node
 
-  def initialize(value = nil)
+  def initialize(value = nil, next_node = nil)
     @value = value
     @next_node = nil
-  end
-
-  def value
-    @value
   end
 end
