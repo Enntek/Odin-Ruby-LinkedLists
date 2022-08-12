@@ -1,5 +1,4 @@
 # This class is a data structure similar to an array
-
 class LinkedList
   attr_reader :head, :tail
 
@@ -43,10 +42,9 @@ class LinkedList
   end
 
   def pop
-    old_tail = @tail
-
     return puts 'Linked List is empty' if @head.nil?
 
+    old_tail = @tail
     if @head.next_node.nil?
       @head = nil
       @tail = nil
@@ -66,7 +64,6 @@ class LinkedList
   end
 
   def find(value)
-    # ret index of node containing value, or nil
     size.times do |i|
       return i if at(i).value == value
     end
@@ -74,8 +71,12 @@ class LinkedList
   end
 
   def to_s
-    # represent linked list objects as strings
-    # format should be:  ( value ) -> ( value ) -> ( value ) -> nil
+    str = ''
+    size.times do |i|
+      str += "( #{at(i).value} ) -> "
+      str += 'nil' if at(i).next_node.nil?
+    end
+    str
   end
 
   def get_penultimate_node(current_node = @head)
@@ -91,10 +92,31 @@ class LinkedList
   end
 
   # extra credit
-  def insert_at(value, index)
-    # insert node with value at index
+  def insert_at(index, value)
+    return begin_list(value) if @head.nil?
+    return @head = Node.new(value, at(index)) if index.zero?
+    return append(value) if index == size
+    return puts 'Unable to insert, index out of range!' if index > size
+
+    new_node = Node.new(value, at(index))
+    at(index - 1).next_node = new_node
   end
 
   def remove_at(index)
+    return pop if index == size - 1
+
+    # edge case: head
+    if index == 0
+      old_head = @head
+      @head = @head.next_node
+      old_head.next_node = nil
+      return old_head
+    end
+
+    # not head and not tail
+    old_node = at(index)
+    prev_node = at(index - 1)
+    prev_node.next_node = at(index + 1)
+    old_node
   end
 end
